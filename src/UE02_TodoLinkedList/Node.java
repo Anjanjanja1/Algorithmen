@@ -6,7 +6,6 @@ public class Node {
     private Node next;
 
     // *** Konstruktor (optional) ***
-
     public Node(String todoText) {
         this.todoText = todoText;
     }

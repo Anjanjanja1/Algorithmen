@@ -1,4 +1,4 @@
-package UE03_WagonLinkedList;
+package UE03_WagonLinkedListDOUBLE;
 
 public class TestWagonLinkedList {
     public static void main(String[] args) {
@@ -15,11 +15,13 @@ public class TestWagonLinkedList {
         System.out.println("Last: " + (wagonLinkedList.getLast() != null ? wagonLinkedList.getLast().getWagonId() : "null"));
 
         // Löschen
+        System.out.println("----DELETING 1----");
         wagonLinkedList.removeWagonFromLastPos();
         System.out.println("First: " + (wagonLinkedList.getFirst() != null ? wagonLinkedList.getFirst().getWagonId() : "null"));
         System.out.println("Last: " + (wagonLinkedList.getLast() != null ? wagonLinkedList.getLast().getWagonId() : "null"));
 
         // Noch mehr löschen
+        System.out.println("----DELETING MORE----");
         wagonLinkedList.removeWagonFromLastPos();
         wagonLinkedList.removeWagonFromLastPos();
         wagonLinkedList.printList();
