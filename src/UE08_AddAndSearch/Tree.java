@@ -96,63 +96,92 @@ public class Tree {
         }
         // Variante 2: Aufruf Schleife
         //return searchNumberLoop(number);
-
     }
 
     // Suche - Variante Rekursion
     private Node searchNumberRecursive(Node currentNode, int number) {
-        //THE NUMBER IS SMALLER THAN ROOT
-        if (number < currentNode.getNumber()) {
-            //When there is an element on the left
-            if (currentNode.getLeft() != null) {
-                if (number == currentNode.getLeft().getNumber()) {
-                    return currentNode.getLeft();
-                } else {
-                    return searchNumberRecursive(currentNode.getLeft(), number);
-                }
-            }
+        if (currentNode == null){
+            return null;
         }
-        //THE NEW VALUE IS BIGGER THAN ROOT
+        //Case: if the value is found
+        else if (currentNode.getNumber() == number) {
+            return currentNode;
+        }
+        //to the left...smaller
+        else if(currentNode.getNumber() > number) {
+            return searchNumberRecursive(currentNode.getLeft(), number);
+        }
+        //to the right...bigger
         else {
-            if (currentNode.getRight() != null) {
-                if (number == currentNode.getRight().getNumber()) {
-                    return currentNode.getRight();
-                } else {
-                    return searchNumberRecursive(currentNode.getRight(), number);
-                }
+            return searchNumberRecursive(currentNode.getRight(), number);
+        }
+//        //THE NUMBER IS SMALLER THAN ROOT
+//        if (number < currentNode.getNumber()) {
+//            //When there is an element on the left
+//            if (currentNode.getLeft() != null) {
+//                if (number == currentNode.getLeft().getNumber()) {
+//                    return currentNode.getLeft();
+//                } else {
+//                    return searchNumberRecursive(currentNode.getLeft(), number);
+//                }
+//            }
+//        }
+//        //THE NEW VALUE IS BIGGER THAN ROOT
+//        else {
+//            if (currentNode.getRight() != null) {
+//                if (number == currentNode.getRight().getNumber()) {
+//                    return currentNode.getRight();
+//                } else {
+//                    return searchNumberRecursive(currentNode.getRight(), number);
+//                }
+//            }
+//        }
+//        return currentNode;
+    }
+
+
+    // Suche - Variante Schleife
+    private Node searchNumberLoop(int number) {
+        Node currentNode = root;
+        while (currentNode != null){
+            //Case: the node if found
+            if (currentNode.getNumber() == number) {
+                return currentNode;
+            }
+            //Searched value is bigger than the current node
+            else if (currentNode.getNumber() < number) {
+                currentNode = currentNode.getRight();
+            }
+            //Searched value is smaller than the current node
+            else {
+                currentNode = currentNode.getLeft();
             }
         }
         return currentNode;
     }
 
 
-    // Suche - Variante Schleife
-    private Node searchNumberLoop(int number) {
-        // TODO
-        return null;
-    }
+/**
+ * Funktion zur Ausgabe des gesamten Baums.
+ */
+public void printTree() {
+    printTree(root, "");
+}
 
-    /**
-     * Funktion zur Ausgabe des gesamten Baums.
-     */
-    public void printTree() {
-        printTree(root, "");
+/**
+ * Funktion zur Ausgabe des Baums unterhalb eines Knotens
+ *
+ * @param currentNode Knoten, dessen Teilbaum ausgegeben werden soll
+ * @param prefix      Zur Einr�ckung
+ */
+public void printTree(Node currentNode, String prefix) {
+    if (currentNode == null) {
+        return;
     }
-
-    /**
-     * Funktion zur Ausgabe des Baums unterhalb eines Knotens
-     *
-     * @param currentNode Knoten, dessen Teilbaum ausgegeben werden soll
-     * @param prefix      Zur Einr�ckung
-     */
-    public void printTree(Node currentNode, String prefix) {
-        if (currentNode == null) {
-            return;
-        }
-        System.out.println(prefix + currentNode.getNumber());
-        printTree(currentNode.getLeft(), prefix + "L ");
-        printTree(currentNode.getRight(), prefix + "R ");
-    }
+    System.out.println(prefix + currentNode.getNumber());
+    printTree(currentNode.getLeft(), prefix + "L ");
+    printTree(currentNode.getRight(), prefix + "R ");
+}
 
 
 }

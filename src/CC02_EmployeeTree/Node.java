@@ -5,6 +5,7 @@ public class Node {
     private Node left;
     private Node right;
 
+
     public Node(int id) {
         this.id = id;
     }
