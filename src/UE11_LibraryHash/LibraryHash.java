@@ -5,6 +5,8 @@ import java.io.FileReader;
 
 public class LibraryHash {
     private String[] books;
+    public static final String TOMBSTONE = "#-*!*-#";
+
 
     // Konstruktor
     public LibraryHash(int size) {
@@ -40,7 +42,7 @@ public class LibraryHash {
             //Position calculation
             int pos = (baseValue + i) % books.length;
             //is this position available?
-            if (books[pos] == null) {
+            if (books[pos] == null || books[pos].equals(TOMBSTONE)) {
                 books[pos] = bookTitle;
                 return;
             }
@@ -55,8 +57,8 @@ public class LibraryHash {
 
         for (int i = 0; i < books.length; i++) {
             int pos = (baseValue+i) % books.length;
-            if (books[pos] != null && books[pos].equals(bookTitle)) {
-                books[pos] = null;
+            if (books[pos] != null && bookTitle.equals(books[pos])) {
+                books[pos] = TOMBSTONE;
                 return true;
             }
         }
@@ -65,14 +67,13 @@ public class LibraryHash {
 
     // Abfrage, ob ein bestimmtes Buch in der Hashtable vorhanden ist
     public Boolean isBookInStock(String bookTitle) {
-        //
         int baseValue = Math.abs(bookTitle.hashCode()) % books.length;
 
         for (int i = 0; i < books.length; i++) {
             //Position calculation
             int pos = (baseValue + i) % books.length;
             //Check if the book is in hash
-            if (books[pos] != null && books[pos].equals(bookTitle)) {
+            if (books[pos] != null && bookTitle.equals(books[pos])) {
                 return true;
             }
         }
