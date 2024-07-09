@@ -1,4 +1,4 @@
-package UE00_TripleSumZero;
+package UE00_TripleSumZeroDifferenceBetweenRunningTimes;
 
 import java.util.Arrays;
 
