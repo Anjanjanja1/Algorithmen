@@ -6,7 +6,6 @@ public class LinkedList {
 
     //method to add new Nodes at the end of the LinkedList
     public void addNodeOnLastPosition(String groceries) {
-
         Node newNode = new Node(groceries);
 
         //at the beginning first and last are NULL, call this as a first step; when the list is empty!
