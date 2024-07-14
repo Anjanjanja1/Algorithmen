@@ -7,6 +7,9 @@ public class A09_Rekursion {
         int sum = sumOfArray(arr, arr.length);
         System.out.println("Sum of array elements: " + sum);
 
+        System.out.println("Largest element in the array is: " + findMax(arr, arr.length)); //Should return 9
+        System.out.println("Smallest element in the array is: " + findMin(arr, arr.length)); // Should return 1
+
         int n = 1234; // Change this value to test other cases
         System.out.println("Sum of digits of " + n + " is: " + sumOfDigits(n));
 
@@ -25,6 +28,10 @@ public class A09_Rekursion {
 
         String str = "racecar"; // Change this value to test other cases
         System.out.println("Is the string \"" + str + "\" a palindrome? " + isPalindrome(str));
+
+        System.out.println("Smaller of 10 and 20 = " + findMin(10, 20)); // Should return 10
+        System.out.println("Smaller of 30 and 5 = " + findMin(30, 5)); // Should return 5
+
     }
 
     // Recursive method to calculate the sum of elements in the array
@@ -35,6 +42,40 @@ public class A09_Rekursion {
         }
         // Recursive case
         return sumOfArray(arr, n - 1) + arr[n - 1];
+    }
+
+    public static int findMax(int[] arr, int n) {
+        // Base case: if the array has only one element, return that element
+        if (n == 1) {
+            return arr[0];
+        }
+
+        // Recursive case: find the maximum in the rest of the array
+        int maxOfRest = findMax(arr, n - 1);
+
+        // Compare the last element with the maximum of the rest of the array
+        if (arr[n - 1] > maxOfRest) {
+            return arr[n - 1];
+        } else {
+            return maxOfRest;
+        }
+    }
+
+    public static int findMin(int[] arr, int n) {
+        // Base case: if the array has only one element, return that element
+        if (n == 1) {
+            return arr[0];
+        }
+
+        // Recursive case: find the minimum in the rest of the array
+        int minOfRest = findMin(arr, n - 1);
+
+        // Compare the last element with the minimum of the rest of the array
+        if (arr[n - 1] < minOfRest) {
+            return arr[n - 1];
+        } else {
+            return minOfRest;
+        }
     }
 
     // Recursive method to calculate sum of digits
@@ -99,6 +140,16 @@ public class A09_Rekursion {
         }
         // Recursive case
         return isPalindrome(str.substring(1, str.length() - 1));
+    }
+
+    public static int findMin(int a, int b) {
+        // Base case: if a is less than or equal to b, return a
+        if (a <= b) {
+            return a;
+        }
+
+        // Recursive case: if a is greater than b, return b (this case only happens if a > b)
+        return findMin(b, a);
     }
 }
 
