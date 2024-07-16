@@ -1,0 +1,205 @@
+---Adding at the Beginning---
+Create a new node with the desired value.
+Set the new node's next pointer to the current first node.
+Set the current first node's prev pointer to the new node (if the list is not empty).
+Update the first pointer to the new node.
+If the list was empty, set the last pointer to the new node as well.
+
+void insertWagonAtFirstPos(String wagonId) {
+    Node newNode = new Node(wagonId);
+    if (first == null) {
+        first = newNode;
+        last = newNode;
+    } else {
+        newNode.setNext(first);
+        first.setPrev(newNode);
+        first = newNode;
+    }
+}
+
+---Adding at the End---
+Create a new node with the desired value.
+Set the new node's prev pointer to the current last node.
+Set the current last node's next pointer to the new node (if the list is not empty).
+Update the last pointer to the new node.
+If the list was empty, set the first pointer to the new node as well.
+
+void insertWagonAtLastPos(String wagonId) {
+    Node newNode = new Node(wagonId);
+    if (last == null) {
+        first = newNode;
+        last = newNode;
+    } else {
+        newNode.setPrev(last);
+        last.setNext(newNode);
+        last = newNode;
+    }
+}
+
+---Adding (Insert) by Index---
+Create a new node with the desired value.
+Check if the index is 0 (i.e., inserting at the beginning).
+If so, set the new node's next pointer to the current first node.
+Update the prev pointer of the current first node to the new node.
+Update the first pointer to the new node.
+If the list was empty, also update the last pointer to the new node.
+Otherwise, traverse the list to find the node at index - 1.
+Update pointers to insert the new node between the node at index - 1 and the node at index.
+Set the new node's next pointer to the node at index.
+Set the new node's prev pointer to the node at index - 1.
+Update the next pointer of the node at index - 1 to the new node.
+Update the prev pointer of the node at index to the new node.
+If the new node is inserted at the end, update the last pointer to the new node.
+
+public void insertMovieTitleAtIndex(String movieTitle, int index) {
+    Node newNode = new Node(movieTitle);
+    if (index == 0) { // Step 2
+        if (first == null) {
+            first = newNode;
+            last = newNode;
+        } else {
+            newNode.setNext(first);
+            first.setPrev(newNode);
+            first = newNode;
+        }
+        return;
+    }
+
+    Node current = first;
+    int currentIndex = 0;
+    while (current != null && currentIndex < index - 1) { // Step 3
+        current = current.getNext();
+        currentIndex++;
+    }
+
+    if (current != null) { // Step 4
+        newNode.setNext(current.getNext());
+        newNode.setPrev(current);
+        if (current.getNext() != null) {
+            current.getNext().setPrev(newNode);
+        } else {
+            last = newNode;
+        }
+        current.setNext(newNode);
+    }
+}
+
+---Deleting from the Beginning---
+Check if the list is empty (i.e., first == null).
+If empty, do nothing.
+Update the first pointer to the second node.
+Set the new first node's prev pointer to null.
+If the list had only one node, set the last pointer to null as well.
+
+void removeWagonFromFirstPos() {
+    if (first == null) {
+        return;
+    }
+    if (first == last) {
+        first = null;
+        last = null;
+    } else {
+        first = first.getNext();
+        first.setPrev(null);
+    }
+}
+
+---Deleting from the End---
+Check if the list is empty (i.e., first == null).
+If empty, do nothing.
+Update the last pointer to the second-to-last node.
+Set the new last node's next pointer to null.
+If the list had only one node, set the first pointer to null as well.
+
+void removeWagonFromLastPos() {
+    if (first == null) {
+        return;
+    }
+    if (first == last) {
+        first = null;
+        last = null;
+    } else {
+        last = last.getPrev();
+        last.setNext(null);
+    }
+}
+
+---Deleting by Index---
+Check if the list is empty (i.e., first == null).
+If so, return or throw an exception.
+Check if the index is 0 (i.e., deleting the first node).
+If so, update the first pointer to the second node.
+Update the prev pointer of the new first node to null.
+If the list had only one node, also update the last pointer to null.
+Otherwise, traverse the list to find the node at index.
+Update pointers to remove the node at index.
+Update the next pointer of the node at index - 1 to the node at index + 1.
+Update the prev pointer of the node at index + 1 to the node at index - 1.
+If the node at index is the last node, update the last pointer to the node at index - 1.
+
+public void deleteMovieAtIndex(int index) {
+    if (first == null) { // Step 1
+        return;
+    }
+
+    if (index == 0) { // Step 2
+        if (first == last) {
+            first = null;
+            last = null;
+        } else {
+            first = first.getNext();
+            if (first != null) {
+                first.setPrev(null);
+            }
+        }
+        return;
+    }
+
+    Node current = first;
+    int currentIndex = 0;
+    while (current != null && currentIndex < index) { // Step 3
+        current = current.getNext();
+        currentIndex++;
+    }
+
+    if (current != null) { // Step 4
+        if (current == last) {
+            last = current.getPrev();
+            if (last != null) {
+                last.setNext(null);
+            }
+        } else {
+            if (current.getPrev() != null) {
+                current.getPrev().setNext(current.getNext());
+            }
+            if (current.getNext() != null) {
+                current.getNext().setPrev(current.getPrev());
+            }
+        }
+    }
+}
+
+
+---Searching for a Node by Index---
+Check if the list is empty (i.e., first == null).
+If empty, return null.
+Iterate through the list starting from the first node.
+Keep a counter to track the current index.
+If the current index matches the desired index, return the node's value.
+If the end of the list is reached before finding the index, return null.
+
+public String getWagonIdAtIndex(int index) {
+    if (first == null) {
+        return null;
+    }
+    Node current = first;
+    int currentIndex = 0;
+    while (current != null) {
+        if (currentIndex == index) {
+            return current.getWagonId();
+        }
+        current = current.getNext();
+        currentIndex++;
+    }
+    return null;
+}

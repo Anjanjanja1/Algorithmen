@@ -1,0 +1,54 @@
+---Adding (Enqueue) to the Queue---
+Create a new node with the desired value.
+Check if the queue is empty (i.e., front == null).
+If empty, set both front and rear to the new node.
+If not empty, set the next pointer of the current rear node to the new node.
+Update the rear pointer to the new node.
+Increment the counter (if you are keeping track of the number of elements).
+
+public void enqueue(Booking newBooking) {
+    Node newNode = new Node(newBooking);
+    if (front == null) {
+        front = newNode;
+        rear = newNode;
+    } else {
+        rear.setNext(newNode);
+        rear = newNode;
+    }
+    count++;
+}
+
+---Deleting (Dequeue) from the Queue---
+Check if the queue is empty (i.e., front == null).
+If empty, throw an exception or return a special value.
+Save the booking of the current front node.
+Update the front pointer to the next node in the queue.
+If the queue becomes empty, set the rear pointer to null.
+Decrement the counter.
+Return the saved booking.
+
+public Booking dequeue() throws QueueEmptyException {
+    if (front == null) {
+        throw new QueueEmptyException();
+    }
+    Booking booking = front.getBooking();
+    front = front.getNext();
+    if (front == null) {
+        rear = null;
+    }
+    count--;
+    return booking;
+}
+
+---Searching (Peek) the Front Element in the Queue---
+Check if the queue is empty (i.e., front == null).
+If empty, throw an exception or return a special value.
+Return the booking of the current front node.
+
+public Booking peek() throws QueueEmptyException {
+    if (front == null) {
+        throw new QueueEmptyException();
+    }
+    return front.getBooking();
+}
+

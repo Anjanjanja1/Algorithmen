@@ -1,0 +1,46 @@
+---Adding (Push) to the Stack---
+Create a new node with the desired value.
+Set the new node's next pointer to the current top node.
+Update the top pointer to the new node.
+Increment the counter (if you are keeping track of the number of elements)
+
+public void push(String bookTitle) {
+    Node newNode = new Node(bookTitle);
+
+    if (top == null) {
+        top = newNode;
+    } else {
+        newNode.setNext(top);
+        top = newNode;
+    }
+}
+
+---Deleting (Pop) from the Stack---
+Check if the stack is empty (i.e., top == null).
+If empty, throw an exception or return a special value.
+Save the book title of the current top node.
+Update the top pointer to the next node in the stack.
+Decrement the counter.
+Return the saved book title.
+
+public String pop() throws StackEmptyException {
+    if (top == null) {
+        throw new StackEmptyException();
+    }
+    String bookTitle = top.getBookTitle();
+    top = top.getNext();
+    return bookTitle;
+}
+
+---Searching (Peek) the Top Element in the Stack---
+Check if the stack is empty (i.e., top == null).
+If empty, throw an exception or return a special value.
+Return the book title of the current top node.
+
+public String peek() throws StackEmptyException {
+    if (top == null) {
+        throw new StackEmptyException();
+    }
+    return top.getBookTitle();
+}
+

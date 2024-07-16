@@ -1,0 +1,65 @@
+---Adding a Node to the End of the List---
+Create a new node with the desired value.
+Check if the list is empty (i.e., first == null).
+If empty, set both first and last to the new node.
+If not empty, set the next pointer of the last node to the new node and update the last pointer to the new node.
+
+public void appendTodoText(String todoText) {
+    Node newNode = new Node(todoText);
+    if (first == null) {
+        first = newNode;
+        last = newNode;
+    } else {
+        last.setNext(newNode);
+        last = newNode;
+    }
+}
+
+---Deleting the Last Node in the List---
+Check if the list is empty (i.e., first == null).
+If empty, do nothing.
+Check if there is only one node (i.e., first == last).
+If yes, set both first and last to null.
+Otherwise, iterate through the list to find the second-to-last node.
+Set its next pointer to null and update the last pointer to this node.
+
+public void deleteLastTodoText() {
+    if (first == null) {
+        return;
+    }
+    if (first == last) {
+        first = null;
+        last = null;
+        return;
+    }
+    Node current = first;
+    while (current.getNext() != last) {
+        current = current.getNext();
+    }
+    current.setNext(null);
+    last = current;
+}
+
+---Searching for a Node by Index---
+Check if the list is empty (i.e., first == null).
+If empty, return null.
+Iterate through the list using a loop, starting from the first node.
+Keep a counter to track the current index.
+If the current index matches the desired index, return the node's value.
+If the end of the list is reached before finding the index, return null.
+
+public String getTodoTextAtIndex(int index) {
+    if (first == null) {
+        return null;
+    }
+    Node current = first;
+    int currentIndex = 0;
+    while (current != null) {
+        if (currentIndex == index) {
+            return current.getTodoText();
+        }
+        current = current.getNext();
+        currentIndex++;
+    }
+    return null;
+}
