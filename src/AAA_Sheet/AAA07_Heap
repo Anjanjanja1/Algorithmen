@@ -1,0 +1,102 @@
+---INSERT---
+Check if the heap is full.
+Insert the new element at the end.
+Increase the count.
+Swim up to maintain heap order.
+
+public boolean insert(Task t) {
+        if (isFull()) {
+            System.out.println("Heap is full");
+            return false;
+        }
+        int newPos = count;
+        tasks[newPos] = t;
+        count++;
+        swim(newPos);
+        return true;
+    }
+
+---REMOVE---
+Check if the heap is empty.
+Store the root element (to return later).
+Replace the root with the last element.
+Decrease the count.
+Sink down to maintain heap order.
+
+public Task remove() {
+        if (count == 0) {
+            System.err.println("Heap ist leer!");
+            return null;
+        }
+        Task resultTask = tasks[0];
+        tasks[0] = tasks[count - 1];
+        count--;
+        sink(0);
+        return resultTask;
+    }
+***************************************************************************************************
+---EXCHANGE POSITIONS---
+Store one element temporarily:
+    Use a temporary variable to hold one of the elements.
+Swap the elements:
+    Assign the value of the second element to the first position.
+    Assign the value of the temporary variable (initially the first element) to the second position.
+
+private void exchange(int pos1, int pos2) {
+        Task temp = tasks[pos1];
+        tasks[pos1] = tasks[pos2];
+        tasks[pos2] = temp;
+    }
+
+---SWIM---
+Start at the given position (currentPos).
+Find the parent position (parentPos).
+Compare the priority of the current element with its parent:
+If the current element's priority is less than its parent's priority, swap them.
+Update currentPos to the parentPos.
+Repeat until the current element is in the correct position or it becomes the root.
+
+private void swim(int pos) {
+        int currentPos = pos;
+
+        while (exists(currentPos)) {
+            int parentPos = parent(currentPos);
+
+            if (exists(parentPos) && prio(parentPos) > prio(currentPos)) {
+                exchange(currentPos, parentPos);
+                currentPos = parentPos;
+            } else {
+                break;
+            }
+        }
+    }
+
+---SINK---
+Start at the given position (currentPos).
+Check if the current element has children:
+If it doesn't, the process stops.
+Find the position of the child with the smaller priority (minPos).
+Compare the priority of the current element with the minPos child:
+If the current element's priority is greater than the minPos child's priority, swap them.
+Update currentPos to the minPos.
+Repeat until the current element is in the correct position or it has no children.
+
+private void sink(int pos) {
+        int currentPos = pos;
+
+        while (exists(currentPos)) {
+            if (!hasChildren(currentPos)) {
+                break;
+            }
+
+            int minPos = minChild(currentPos);
+
+            if (prio(minPos) < prio(currentPos)) {
+                exchange(minPos, currentPos);
+                currentPos = minPos;
+            } else {
+                break;
+            }
+        }
+    }
+

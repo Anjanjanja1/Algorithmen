@@ -1,0 +1,167 @@
+---Adding a Node---
+
+public void add(int number) {
+        Node newNode = new Node(number);
+        if (root == null) {
+            root = newNode;
+        } else {
+            addLoop(root, newNode);
+            // Alternatively, use the recursive method:
+            // addRecursive(root, newNode);
+        }
+    }
+
+LOOP:
+Start from the root.
+Traverse the tree:
+If the new node's number is less than the current node's number, move to the left child.
+If the new node's number is greater than or equal to the current node's number, move to the right child.
+Insert the new node:
+If the left or right child is null, insert the new node there.
+
+private void addLoop(Node startNode, Node newNode) {
+        Node current = startNode;
+        while (current != null) {
+            if (newNode.getNumber() < current.getNumber()) {
+                if (current.getLeft() == null) {
+                    current.setLeft(newNode);
+                    return;
+                }
+                current = current.getLeft();
+            } else {
+                if (current.getRight() == null) {
+                    current.setRight(newNode);
+                    return;
+                }
+                current = current.getRight();
+            }
+        }
+    }
+
+RECURSION:
+Base Case: If the current node is null, insert the new node here.
+Recursive Case:
+If the new node's number is less than the current node's number, call the function on the left child.
+If the new node's number is greater than or equal to the current node's number, call the function on the right child.
+
+ private void addRecursive(Node currentNode, Node newNode) {
+        if (newNode.getNumber() < currentNode.getNumber()) {
+            if (currentNode.getLeft() == null) {
+                currentNode.setLeft(newNode);
+            } else {
+                addRecursive(currentNode.getLeft(), newNode);
+            }
+        } else {
+            if (currentNode.getRight() == null) {
+                currentNode.setRight(newNode);
+            } else {
+                addRecursive(currentNode.getRight(), newNode);
+            }
+        }
+    }
+
+---Searching for a Node---
+
+public Node searchNumber(int number) {
+        System.out.print("SearchNumber - ");
+        // Variante 1: Aufruf Rekursiv
+        // return searchNumberRecursive(root, number);
+        // Variante 2: Aufruf Schleife
+        return searchNumberLoop(number);
+    }
+
+LOOP:
+Start from the root.
+Traverse the tree:
+If the number is equal to the current node's number, return the current node.
+If the number is less than the current node's number, move to the left child.
+If the number is greater than the current node's number, move to the right child.
+Return null if the number is not found.
+
+private Node searchNumberLoop(int number) {
+        Node current = root;
+        while (current != null) {
+            if (number == current.getNumber()) {
+                return current;
+            }
+            if (number < current.getNumber()) {
+                current = current.getLeft();
+            } else {
+                current = current.getRight();
+            }
+        }
+        return null;
+    }
+
+RECURSION:
+Base Case: If the current node is null or the current node's number is equal to the search number, return the current node.
+Recursive Case:
+If the number is less than the current node's number, call the function on the left child.
+If the number is greater than the current node's number, call the function on the right child.
+
+ private Node searchNumberRecursive(Node currentNode, int number) {
+        if (currentNode == null || currentNode.getNumber() == number) {
+            return currentNode;
+        }
+        if (number < currentNode.getNumber()) {
+            return searchNumberRecursive(currentNode.getLeft(), number);
+        } else {
+            return searchNumberRecursive(currentNode.getRight(), number);
+        }
+    }
+
+
+---Deleting a Node---
+Find the node to be deleted:
+If the node to be deleted has no children (it is a leaf node), simply remove it.
+If the node to be deleted has one child, replace the node with its child.
+If the node to be deleted has two children, find the in-order successor (the smallest node in the right subtree) or the in-order predecessor (the largest node in the left subtree), replace the node’s value with the successor's value, and delete the successor node.
+
+---ROTATE (RIGHT)---
+Identify the nodes involved: The root node 𝑁 and its left child 𝐿
+Perform the rotation:
+Set N's left child to L's right child
+Set L's right child to 𝑁
+Update the root: If necessary, set the new root to 𝐿
+
+if (root != null && root.getLeft() != null) {
+            Node newRoot = root.getLeft();
+            root.setLeft(newRoot.getRight());
+            newRoot.setRight(root);
+            root = newRoot;
+        }
+
+---ROTATE (LEFT)---
+Identify the nodes involved: The root node 𝑁 and its right child R
+Perform the rotation:
+Set N's right child to R's left child
+Set R's left child to 𝑁
+Update the root: If necessary, set the new root to R
+
+if (root != null && root.getRight() != null) {
+            Node newRoot = root.getRight();
+            root.setRight(newRoot.getLeft());
+            newRoot.setLeft(root);
+            root = newRoot;
+        }
+
+---MAX DEPTH---
+ private int getMaxDepth(Node currentTree) {
+        if (currentTree == null)
+            return 0;
+        else {
+            int leftDepth = getMaxDepth(currentTree.getLeft());
+            int rightDepth = getMaxDepth(currentTree.getRight());
+
+            return Math.max(leftDepth, rightDepth) + 1;
+        }
+    }
+
+---NODE COUNT---
+ private int getNodeCount(Node currentNode) {
+        if (currentNode == null)
+            return 0;
+        else {
+            return 1 + getNodeCount(currentNode.getLeft()) + getNodeCount(currentNode.getRight());
+        }
+    }

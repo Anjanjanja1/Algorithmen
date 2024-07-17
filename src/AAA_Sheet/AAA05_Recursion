@@ -1,0 +1,101 @@
+---FACTORIAL---
+function factorial(n):
+    if n <= 1:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+---MULTIPLICATION---
+public static int multiplikationRekursion(int multiplicand, int multiplier) {
+        if (multiplier == 1) {
+            return multiplicand;
+        } else {
+            return multiplicand + multiplikationRekursion(multiplicand, multiplier - 1); //
+        }
+    }
+
+---FIBONACCI---
+function fibonacci(n):
+    if n <= 0:
+        return 0
+    else if n == 1:
+        return 1
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+
+---ARRAY SUM---
+function sumArray(arr, n):
+    if n <= 0:
+        return 0
+    else:
+        return sumArray(arr, n - 1) + arr[n - 1]
+
+---TOWER OF HANOI---
+function towerOfHanoi(n, source, target, auxiliary):
+    if n == 1:
+        print("Move disk 1 from " + source + " to " + target)
+        return
+    towerOfHanoi(n - 1, source, auxiliary, target)
+    print("Move disk " + n + " from " + source + " to " + target)
+    towerOfHanoi(n - 1, auxiliary, target, source)
+
+---PALINDROME---
+function isPalindrome(string, left, right):
+    if left >= right:
+        return true
+    if string[left] != string[right]:
+        return false
+    return isPalindrome(string, left + 1, right - 1)
+
+---REVERSE STRING---
+public class ReverseString {
+    public static String reverseString(String string) {
+        if (string.isEmpty()) {
+            return string;
+        }
+        return reverseString(string.substring(1)) + string.charAt(0);
+    }
+
+---Depth-First Search (DFS) in a Binary Tree---
+public void dfs(Node node) {
+        if (node != null) {
+            System.out.print(node.value + " ");
+            dfs(node.left);
+            dfs(node.right);
+        }
+    }
+
+---MERGE SORT---
+public static void mergeSort(int[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+
+            merge(arr, left, mid, right);
+        }
+    }
+
+---POWER---
+public static double power(double x, int n) {
+        if (n == 0) {
+            return 1;
+        }
+        if (n < 0) {
+            return 1 / power(x, -n);
+        }
+        if (n % 2 == 0) {
+            double half = power(x, n / 2);
+            return half * half;
+        } else {
+            return x * power(x, n - 1);
+        }
+    }
+
+---GREATEST COMMON DIVISOR---
+function gcd(a, b):
+    if b == 0:
+        return a
+    else:
+        return gcd(b, a % b)

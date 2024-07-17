@@ -1,0 +1,164 @@
+---QUEUE---
+** QueueNode + Queue **
+public class QueueNode {
+    private TreeNode treeNode;
+    private QueueNode next;
+
+    public TreeNode getTreeNode() {
+        return treeNode;
+    }
+
+    public void setTreeNode(TreeNode treeNode) {
+        this.treeNode = treeNode;
+    }
+
+    public QueueNode getNext() {
+        return next;
+    }
+
+    public void setNext(QueueNode next) {
+        this.next = next;
+    }
+}
+
+public class Queue {
+    private QueueNode front;
+    private QueueNode rear;
+
+    public void enqueue(TreeNode treeNode) {
+        // QueueNode erstellen
+        QueueNode newNode = new QueueNode();
+        newNode.setTreeNode(treeNode);
+
+        // Queue ist noch leer
+        if (front == null) {
+            front = newNode;
+            rear = newNode;
+        }
+        // Queue ist bereits befüllt
+        else {
+            rear.setNext(newNode);
+            rear = newNode;
+        }
+    }
+
+    public TreeNode dequeue() {
+        // Queue ist nicht leer
+        if (front != null) {
+            TreeNode treeNode = front.getTreeNode();
+            front = front.getNext();
+            // Queue wurde im Zuge der Aktion leer, darum rear anpassen
+            if (front == null)
+                rear = null;
+            return treeNode;
+        }
+        else
+            return null;
+    }
+
+    public boolean isEmpty()
+    {
+        return (front == null);
+    }
+}
+
+
+---TREE---
+** TreeNode + Tree **
+public class TreeNode {
+     private int number;
+     private TreeNode left;
+     private TreeNode right;
+
+     public int getNumber() {
+         return number;
+     }
+
+     public void setNumber(int number) {
+         this.number = number;
+     }
+
+     public TreeNode getLeft() {
+         return left;
+     }
+
+     public void setLeft(TreeNode left) {
+         this.left = left;
+     }
+
+     public TreeNode getRight() {
+         return right;
+     }
+
+     public void setRight(TreeNode right) {
+         this.right = right;
+     }
+ }
+
+ public class Tree {
+     private TreeNode root;
+
+     public void add(int number)
+     {
+         // Knoten erstellen
+         TreeNode newNode = new TreeNode();
+         newNode.setNumber(number);
+
+         // Tree ist noch leer
+         if (root == null)
+             root = newNode;
+         // Tree ist nicht leer
+         else
+         {
+             TreeNode currentNode = root;
+             boolean nodeAdded = false;
+
+             while ((currentNode != null) && (nodeAdded == false))
+             {
+                 if (newNode.getNumber() < currentNode.getNumber())
+                 {
+                     // Linkes Kind noch frei
+                     if (currentNode.getLeft() == null) {
+                         currentNode.setLeft(newNode);
+                         nodeAdded = true;
+                     }
+                     // Linkes Kind bereits gesetzt
+                     else
+                         currentNode = currentNode.getLeft();
+                 }
+                 else
+                 {
+                     // Rechtes Kind noch frei
+                     if (currentNode.getRight() == null)
+                     {
+                         currentNode.setRight(newNode);
+                         nodeAdded = true;
+                     }
+                     // Rechtes Kind bereits gesetzt
+                     else
+                         currentNode = currentNode.getRight();
+                 }
+             }
+         }
+     }
+
+     public void performBreadthFirstSearch()
+     {
+         Queue queue = new Queue();
+         System.out.print("Start BFS: ");
+
+         queue.enqueue(root);
+         while (queue.isEmpty() == false)
+         {
+             TreeNode currentNode = queue.dequeue();
+             System.out.print(currentNode.getNumber() + ", ");
+
+             if (currentNode.getLeft() != null)
+                 queue.enqueue(currentNode.getLeft());
+             if (currentNode.getRight() != null)
+                 queue.enqueue(currentNode.getRight());
+         }
+     }
+
+
+ }
