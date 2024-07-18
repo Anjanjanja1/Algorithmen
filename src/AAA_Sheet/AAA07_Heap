@@ -16,6 +16,20 @@ public boolean insert(Task t) {
         return true;
     }
 
+public boolean insert(Restaurant newRestaurant) {
+        if (isFull()) {
+            System.err.println("Heap ist voll!");
+            return false;
+        }
+
+        int newPos = count;
+        restaurants[count] = newRestaurant;
+        count++;
+        // Tipp: swim() benötigt einen korrekt gesetzten count-Wert
+        swim(newPos);
+        return true;
+    }
+
 ---REMOVE---
 Check if the heap is empty.
 Store the root element (to return later).
@@ -34,7 +48,25 @@ public Task remove() {
         sink(0);
         return resultTask;
     }
+
+public Restaurant remove() {
+        if (count == 0) {
+            System.err.println("Heap ist leer!");
+            return null;
+        }
+
+        Restaurant resultRestaurant = restaurants[0];
+        restaurants[0] = restaurants[count - 1];
+        restaurants[count - 1] = null;
+        count--;
+        // Tipp: sink() benötigt einen korrekt gesetzten count-Wert
+        sink(0);
+        return resultRestaurant;
+    }
+
 ***************************************************************************************************
+***MIN HEAP***
+
 ---EXCHANGE POSITIONS---
 Store one element temporarily:
     Use a temporary variable to hold one of the elements.
@@ -100,3 +132,54 @@ private void sink(int pos) {
         }
     }
 
+***MAX HEAP***
+---SWIM---
+Start at the given position (currentPos): This is the position of the newly inserted element.
+Find the parent position (parentPos): Calculate the parent position using the formula (currentPos - 1) / 2.
+Compare the priority of the current element with its parent:
+If the current element's priority is greater than its parent's priority, swap them using the exchange method.
+Update currentPos to parentPos.
+Repeat steps 2 and 3 until the current element is in the correct position or it becomes the root.
+
+private void swim(int pos) {
+        int currentPos = pos;
+
+        while (exists(currentPos)) {
+            int parentPos = parent(currentPos);
+
+            if (exists(parentPos) && getPrio(parentPos) < getPrio(currentPos)) {
+                exchange(currentPos, parentPos);
+                currentPos = parentPos;
+            } else {
+                break;
+            }
+        }
+    }
+
+---SINK---
+Start at the given position (currentPos): This is the position of the element to be sunk.
+Check if the current element has children: If it doesn't, the process stops.
+Find the position of the child with the larger priority (maxPos): Compare the priorities of the left and right children and select the one with the larger priority.
+Compare the priority of the current element with the maxPos child:
+If the current element's priority is less than the maxPos child's priority, swap them using the exchange method.
+Update currentPos to maxPos.
+Repeat steps 2, 3, and 4 until the current element is in the correct position or it has no children.
+
+private void sink(int pos) {
+        int currentPos = pos;
+
+        while (exists(currentPos)) {
+            if (!hasChildren(currentPos)) {
+                break;
+            }
+
+            int maxPos = maxChild(currentPos);
+
+            if (getPrio(maxPos) > getPrio(currentPos)) {
+                exchange(maxPos, currentPos);
+                currentPos = maxPos;
+            } else {
+                break;
+            }
+        }
+    }

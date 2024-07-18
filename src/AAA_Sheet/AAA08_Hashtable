@@ -1,0 +1,192 @@
+---ADD---
+Compute Hash Code:
+    Compute the hash code of the element (e.g., bookTitle.hashCode()).
+    Take the absolute value to avoid negative indices.
+Compute Initial Position:
+    Compute the initial position in the hash table using the modulo operation (pos = hashCode % tableSize).
+    Linear Probing to Find Position:
+Initialize a counter to 0.
+Loop until you find an empty position or the table is full:
+    If the current position is null, insert the element.
+    If the current position is not null, increment the counter and compute the new position using (initialPos + counter) % tableSize.
+    If the table is full, throw an exception.
+Insert Element:
+    Insert the element at the found position.
+    Exit the loop.
+
+public void add(String bookTitle) throws HashFullException {
+        int counter = 0;
+        int pos;
+        boolean added = false;
+
+        // Step 1: Compute hash code and initial position
+        int hashCode = Math.abs(bookTitle.hashCode());
+
+        // Step 2: Linear probing to find position
+        while (counter < books.length) {
+            pos = (hashCode + counter) % books.length;
+            if (books[pos] == null) {
+                // Step 4: Insert element
+                books[pos] = bookTitle;
+                added = true;
+                break;
+            } else {
+                counter++;
+            }
+        }
+
+        if (!added) {
+            throw new HashFullException("Hash table is full");
+        }
+    }
+
+---ADD BY ID---
+Calculate Index:
+    Use the book's ID to calculate the index in the hash table using the formula id % list.length.
+Check if the linked list at the calculated index is null.
+    If it is, initialize a new LinkedList<Book> at that index.
+Add the new book to the linked list at the calculated index.
+
+public boolean addBook(Book newBook) {
+    // Step 1: Calculate the index using the book's ID
+    int listIndex = getIndexByHashCalc(newBook.getId());
+
+    // Step 2: Initialize the LinkedList at the index if it's null
+    if (list[listIndex] == null) {
+        list[listIndex] = new LinkedList<Book>();
+    }
+
+    // Step 3: Add the new book to the LinkedList at the calculated index
+    return list[listIndex].add(newBook);
+}
+
+
+---REMOVE---
+Compute Hash Code:
+    Math.abs(bookTitle.hashCode())
+Compute Initial Position:
+    Compute the initial position in the hash table using the modulo operation (pos = hashCode % tableSize).
+Linear Probing to Find Element:
+    Initialize a counter to 0.
+    Loop until you find the element or determine it is not present:
+        If the current position contains the element, remove it by setting the position to null.
+        If the current position is null, the element is not in the table.
+        If the current position does not match the element, increment the counter and compute the new position using (initialPos + counter) % tableSize.
+Remove Element:
+    Set the position to null to remove the element.
+    Exit the loop.
+
+public Boolean remove(String bookTitle) {
+        int counter = 0;
+        int pos;
+
+        // Step 1: Compute hash code and initial position
+        int hashCode = Math.abs(bookTitle.hashCode());
+
+        // Step 2: Linear probing to find element
+        while (counter < books.length) {
+            pos = (hashCode + counter) % books.length;
+            if (books[pos] != null && books[pos].equals(bookTitle)) {
+                // Step 4: Remove element
+                books[pos] = null;
+                return true;
+            } else if (books[pos] == null) {
+                return false; // Element not found
+            } else {
+                counter++;
+            }
+        }
+
+        return false; // Element not found after full table scan
+    }
+
+
+---SEARCH---
+Start with a counter (i) set to 0.
+Compute the base hash value of the word (baseHashValue).
+Loop while the counter is less than the length of the hash table.
+    Calculate the index using the calcIndexWithDoubleHashing method.
+    Check if the word at the current index matches the target word:
+        If it matches, return true.
+        If the current position is null, the word is not in the table, return false.
+    Increment the counter to check the next possible position.
+If the loop completes without finding the word, return false.
+
+public Boolean isWordInDictionary(String word)
+{
+    int counter = 0;
+
+    // Step 1: Loop to handle collisions
+    while (counter < dictionary.length) {
+        // Step 2: Calculate the index using double hashing
+        int index = calcIndexWithDoubleHashing(word, counter);
+
+        // Step 3: Check if the word is at the calculated position
+        if ((dictionary[index] != null) && (dictionary[index].equals(word))) {
+            return true;
+        } else if (dictionary[index] == null) {
+            // Word not in the table
+            return false;
+        }
+
+        // Step 4: Increment counter for next position check
+        counter++;
+    }
+
+    // Step 5: Loop completed without finding the word
+    return false;
+}
+
+---SEARCH BY ID---
+Calculate Index:
+    Use the book's ID to calculate the index in the hash table using the formula id % list.length.
+Get the linked list at the calculated index.
+Iterate through the linked list to find the book with the matching ID.
+    If the book is found, return it.
+    If the book is not found after iterating through the list, return null.
+
+public Book getBookById(int id) {
+    // Step 1: Calculate the index using the book's ID
+    int listIndex = getIndexByHashCalc(id);
+
+    // Step 2: Retrieve the LinkedList at the calculated index
+    LinkedList<Book> linkedList = list[listIndex];
+
+    // Step 3: Iterate through the LinkedList to find the book with the matching ID
+    if (linkedList != null) {
+        Iterator<Book> it = linkedList.iterator();
+        while (it.hasNext()) {
+            Book currentBook = it.next();
+            if (currentBook.getId() == id) {
+                return currentBook; // Book found
+            }
+        }
+    }
+
+    return null; // Book not found
+}
+
+
+---Calculate Index Using Double Hashing---
+Compute Base Hash Value
+Calculate First Hash (h1):
+    Compute h1 as the base hash value modulo the length of the dictionary.
+Calculate Second Hash (h2):
+    Compute h2 as the base hash value modulo a prime number (e.g., 31) plus an offset (e.g., 13).
+Compute the final index using the formula: (h1 + factor * h2) % dictionary.length.
+Return the computed index.
+
+public int calcIndexWithDoubleHashing(String word, int factor)
+{
+    // Step 1: Compute base hash value
+    int baseHashValue = Math.abs(word.hashCode());
+
+    // Step 2: Calculate first hash (h1)
+    int h1 = baseHashValue % dictionary.length;
+
+    // Step 3: Calculate second hash (h2)
+    int h2 = baseHashValue % 31 + 13;
+
+    // Step 4: Compute final index using double hashing formula
+    return (h1 + (factor * h2)) % dictionary.length;
+}
