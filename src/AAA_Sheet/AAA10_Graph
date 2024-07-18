@@ -1,0 +1,169 @@
+********************** ARRAY GRAPH **********************
+
+---Adding an Edge---
+Set graph[v1][v2] to the weight.
+If the graph is undirected, set graph[v2][v1] to the weight.
+
+public void addEdge(int v1, int v2, int weight) {
+    graph[v1][v2] = weight;
+    if (!directed) {
+        graph[v2][v1] = weight;
+    }
+}
+
+---Removing an Edge---
+Set graph[v1][v2] to 0.
+If the graph is undirected, set graph[v2][v1] to 0.
+
+public void removeEdge(int v1, int v2) {
+    graph[v1][v2] = 0;
+    if (!directed) {
+        graph[v2][v1] = 0;
+    }
+}
+
+---Checking if an Edge Exists---
+Check if graph[v1][v2] is greater than 0.
+Return true if it is, otherwise return false.
+
+public boolean hasEdge(int v1, int v2) {
+    return graph[v1][v2] > 0;
+}
+
+---Breadth-First Search---
+import java.util.LinkedList;
+import java.util.Queue;
+
+public void bfsArrayGraph(int startVertex) {
+    boolean[] visited = new boolean[numVertices];
+    Queue<Integer> queue = new LinkedList<>();
+
+    visited[startVertex] = true;
+    queue.add(startVertex);
+
+    while (!queue.isEmpty()) {
+        int vertex = queue.poll();
+        System.out.print(vertex + " "); // Visit the node
+
+        for (int i = 0; i < numVertices; i++) {
+            if (graph[vertex][i] > 0 && !visited[i]) {
+                visited[i] = true;
+                queue.add(i);
+            }
+        }
+    }
+}
+
+---Depth-First Search---
+import java.util.Stack;
+
+public void dfsArrayGraph(int startVertex) {
+    boolean[] visited = new boolean[numVertices];
+    Stack<Integer> stack = new Stack<>();
+
+    stack.push(startVertex);
+
+    while (!stack.isEmpty()) {
+        int vertex = stack.pop();
+
+        if (!visited[vertex]) {
+            visited[vertex] = true;
+            System.out.print(vertex + " "); // Visit the node
+
+            for (int i = 0; i < numVertices; i++) {
+                if (graph[vertex][i] > 0 && !visited[i]) {
+                    stack.push(i);
+                }
+            }
+        }
+    }
+}
+
+
+********************** LIST GRAPH **********************
+---Adding an Edge---
+Create a new WeightedEdge from v1 to v2 with the specified weight.
+Add the edge to graph[v1].
+If the graph is undirected, create a new WeightedEdge from v2 to v1 with the same weight and add it to graph[v2].
+
+public void addEdge(int v1, int v2, int weight) {
+    graph[v1].add(new WeightedEdge(v1, v2, weight));
+    if (!directed) {
+        graph[v2].add(new WeightedEdge(v2, v1, weight));
+    }
+}
+
+
+---Removing an Edge---
+Find the edge from v1 to v2 using findEdge(v1, v2).
+Remove the edge from graph[v1].
+If the graph is undirected, find the edge from v2 to v1 using findEdge(v2, v1) and remove it from graph[v2].
+
+public void removeEdge(int v1, int v2) {
+    graph[v1].remove(findEdge(v1, v2));
+    if (!directed) {
+        graph[v2].remove(findEdge(v2, v1));
+    }
+}
+
+
+---Checking if an Edge Exists---
+Use findEdge(v1, v2) to check if an edge exists from v1 to v2.
+Return true if the edge is found, otherwise return false.
+
+public boolean hasEdge(int v1, int v2) {
+    return findEdge(v1, v2) != null;
+}
+
+
+---Breadth-First Search---
+import java.util.LinkedList;
+import java.util.Queue;
+
+public void bfsListGraph(int startVertex) {
+    boolean[] visited = new boolean[numVertices];
+    Queue<Integer> queue = new LinkedList<>();
+
+    visited[startVertex] = true;
+    queue.add(startVertex);
+
+    while (!queue.isEmpty()) {
+        int vertex = queue.poll();
+        System.out.print(vertex + " "); // Visit the node
+
+        for (WeightedEdge edge : graph[vertex]) {
+            int neighbor = edge.to_vertex;
+            if (!visited[neighbor]) {
+                visited[neighbor] = true;
+                queue.add(neighbor);
+            }
+        }
+    }
+}
+
+
+---Depth-First Search---
+import java.util.Stack;
+
+public void dfsListGraph(int startVertex) {
+    boolean[] visited = new boolean[numVertices];
+    Stack<Integer> stack = new Stack<>();
+
+    stack.push(startVertex);
+
+    while (!stack.isEmpty()) {
+        int vertex = stack.pop();
+
+        if (!visited[vertex]) {
+            visited[vertex] = true;
+            System.out.print(vertex + " "); // Visit the node
+
+            for (WeightedEdge edge : graph[vertex]) {
+                int neighbor = edge.to_vertex;
+                if (!visited[neighbor]) {
+                    stack.push(neighbor);
+                }
+            }
+        }
+    }
+}
