@@ -1,3 +1,7 @@
+FIRST ->                                                                             <- LAST
+        | Apple | -> | Bread | -> | Chia | -> | Cod | -> | Ice Cream | -> | Feta | ->
+
+
 ---Adding a Node to the End of the List---
 Create a new node with the desired value.
 Check if the list is empty (i.e., first == null).

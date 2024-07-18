@@ -1,3 +1,6 @@
+FIRST ->                                                                                    <- LAST
+        <- | Apple | <-> | Bread | <-> | Chia | <-> | Cod | <-> | Ice Cream | <-> | Feta | ->
+
 ---Adding at the Beginning---
 Create a new node with the desired value.
 Set the new node's next pointer to the current first node.
