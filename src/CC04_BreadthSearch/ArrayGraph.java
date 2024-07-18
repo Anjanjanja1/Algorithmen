@@ -1,8 +1,6 @@
 package CC04_BreadthSearch;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class ArrayGraph {
     private int[][] graph;
@@ -23,19 +21,22 @@ public class ArrayGraph {
     }
 
     public void performBreadthSearch(int startVertex, ArrayList<Integer> visited) {
-        visited.add(startVertex);
-        //Search for a startVertex nachbarn
-        for (int i = 0; i < size; i++) {
-            //Where is the connection?
-            if (graph[startVertex][i] == 1) {
-                //
-                if (!visited.contains(i)) {
-                    performBreadthSearch(i, visited);
+        boolean[] visitedArray = new boolean[size];
+        SimpleQueue queue = new SimpleQueue(size);
+
+        visitedArray[startVertex] = true;
+        queue.enqueue(startVertex);
+
+        while (!queue.isEmpty()) {
+            int vertex = queue.dequeue();
+            visited.add(vertex);
+
+            for (int i = 0; i < size; i++) {
+                if (graph[vertex][i] == 1 && !visitedArray[i]) {
+                    visitedArray[i] = true;
+                    queue.enqueue(i);
                 }
             }
         }
     }
-
-
 }
-
