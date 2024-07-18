@@ -1,0 +1,117 @@
+---BUBBLE SORT---
+Outer Loop: Iterate through the entire array. This loop represents the number of passes through the array.
+Inner Loop: Iterate through the array from the start to the end minus the number of passes already completed.
+Comparison and Swap: Compare each pair of adjacent elements. If they are in the wrong order, swap them.
+
+public class PresentSorter {
+    public void sortPresentsByDesireBubbleSort(Present[] presents) {
+        for (int j = 0; j < presents.length - 1; j++) {
+            for (int i = 0; i < presents.length - j - 1; i++) {
+                if (presents[i].desire > presents[i + 1].desire) {
+                    Present temp = presents[i];
+                    presents[i] = presents[i + 1];
+                    presents[i + 1] = temp;
+                }
+            }
+        }
+    }
+}
+
+---INSERTION SORT---
+Outer Loop: Iterate from the second element to the end of the array.
+Inner Loop (Shifting): Compare the current element with elements in the sorted portion of the array. Shift elements to the right to make space for the current element.
+Insert Element: Insert the current element into its correct position in the sorted portion of the array.
+
+public class PresentSorter {
+    public void sortPresentsByDesireInsertionSort(Present[] presents) {
+        for (int i = 1; i < presents.length; i++) {
+            Present key = presents[i];
+            int j = i - 1;
+
+            while (j >= 0 && presents[j].desire > key.desire) {
+                presents[j + 1] = presents[j];
+                j = j - 1;
+            }
+            presents[j + 1] = key;
+        }
+    }
+}
+
+---MERGE SORT---
+Find the middle point to divide the array into two halves: middle = (left + right) / 2.
+Recursively call mergeSort for the first half: mergeSort(array, left, middle).
+Recursively call mergeSort for the second half: mergeSort(array, middle + 1, right).
+
+Merge the two halves sorted in step 1: merge(array, left, middle, right).
+
+Create temporary arrays to hold the two halves.
+Copy data to temporary arrays.
+Merge the temporary arrays back into the original array.
+1:
+public void sortPresentsByDesireMergeSort(Present[] presents) {
+        if (presents == null || presents.length == 0) {
+            return;
+        }
+        mergeSort(presents, 0, presents.length - 1);
+    }
+2:
+private void mergeSort(Present[] presents, int left, int right) {
+        if (left < right) {
+            int middle = (left + right) / 2;
+
+            mergeSort(presents, left, middle);
+
+            mergeSort(presents, middle + 1, right);
+
+            merge(presents, left, middle, right);
+        }
+    }
+3:
+private void merge(Present[] presents, int left, int middle, int right) {
+        int n1 = middle - left + 1;
+        int n2 = right - middle;
+
+        // Create temporary arrays
+        Present[] leftArray = new Present[n1];
+        Present[] rightArray = new Present[n2];
+
+        // Copy data to temporary arrays
+        for (int i = 0; i < n1; ++i) {
+            leftArray[i] = presents[left + i];
+        }
+        for (int j = 0; j < n2; ++j) {
+            rightArray[j] = presents[middle + 1 + j];
+        }
+
+        // Merge the temporary arrays
+
+        // Initial indexes of the first and second subarrays
+        int i = 0, j = 0;
+
+        // Initial index of the merged subarray
+        int k = left;
+        while (i < n1 && j < n2) {
+            if (leftArray[i].desire <= rightArray[j].desire) {
+                presents[k] = leftArray[i];
+                i++;
+            } else {
+                presents[k] = rightArray[j];
+                j++;
+            }
+            k++;
+        }
+
+        // Copy remaining elements of leftArray if any
+        while (i < n1) {
+            presents[k] = leftArray[i];
+            i++;
+            k++;
+        }
+
+        // Copy remaining elements of rightArray if any
+        while (j < n2) {
+            presents[k] = rightArray[j];
+            j++;
+            k++;
+        }
+    }
