@@ -1,3 +1,16 @@
+Front ->
+       | 10 |
+       -----
+       | 20 |
+       -----
+       | 30 |
+       -----
+       | 40 |
+       -----
+Rear
+
+**NEW ITEMS ARE ALWAYS ADDED TO REAR; AND REMOVED ALWAYS FROM FRONT**
+
 ---Adding (Enqueue) to the Queue---
 Create a new node with the desired value.
 Check if the queue is empty (i.e., front == null).
