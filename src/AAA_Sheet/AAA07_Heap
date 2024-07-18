@@ -1,3 +1,7 @@
+public boolean isFull() {
+    return count >= tasks.length;
+}
+
 ---INSERT---
 Check if the heap is full.
 Insert the new element at the end.
